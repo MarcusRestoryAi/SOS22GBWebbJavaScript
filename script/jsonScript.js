@@ -1,3 +1,5 @@
+let myTimeInterval = null;
+
 let innerObj = {
     data : [1, 2, 3, 4, 5],
     datum : "Today"
@@ -34,3 +36,35 @@ async function getLocalJson() {
     //Skriva ut data från JS objekt till div-tag
     document.getElementById("localJsonOutput").innerText = `Mitt namn är ${localDataObj.FirstName} ${localDataObj.LastName}`;
 }
+
+//ClickEvent för btnIss
+document.getElementById("btnIssJson").addEventListener("click", fetchFromIss);
+
+async function fetchFromIss() {
+    //Hämta JSON string från lokal fil
+    let jsonString = await fetch("https://api.wheretheiss.at/v1/satellites/25544");
+
+    //Konvertera JSON till JS
+    let localDataObj = await jsonString.json();
+    console.log(localDataObj);
+
+    //Skriva ut data från JS objekt till div-tag
+    let arrDesiredAttr = ["longitude", "latitude", "altitude", "velocity"];
+    document.getElementById("issJsonOutput").innerHTML = "";
+    arrDesiredAttr.forEach(x => {
+        document.getElementById("issJsonOutput").innerHTML += `<div>${x}: ${localDataObj[x]}</div>`;
+    });
+
+    //Starta ett TidsInterval
+
+    if (myTimeInterval == null) myTimeInterval = setInterval(fetchFromIss, 1500);
+}
+
+//ClickEvent för atts toppa Tidsintervall
+document.getElementById("btnStopFetch").addEventListener("click", () => {
+    //Stoppa myTimeInterval
+    if (myTimeInterval == null) return;
+
+    clearInterval(myTimeInterval);
+    myTimeInterval = null;
+});
