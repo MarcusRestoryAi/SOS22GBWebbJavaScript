@@ -1,0 +1,15 @@
+{
+    "FirstName":"Marcus",
+    "LastName":"Henriksson",
+    "Age":34,
+    "Kurser": [
+        {
+            "KursNamn":"SOS22GB",
+            "AntalStudenter":30
+        },
+        {
+            "KursNamn":"OPA22GB",
+            "AntalStudenter":32
+        }
+    ]
+}
